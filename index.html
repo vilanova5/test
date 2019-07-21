@@ -1,62 +1,20 @@
-
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <style>
-      body {
-        margin: 0px;
-        padding: 0px;
-      }
-    </style>
-    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-  </head>
-  <body>
-
-    <form id="form">
-      <input id="pass" type="password" placeholder="password">
-      <input type="submit" value="Submit">
-    </form>
-
-
-    <canvas id="myCanvas" width="578" height="200" style="display:none;"></canvas>
-    <img id="canvasImg" alt="Right click to save me!">
-    <script>
-      var canvas = document.getElementById('myCanvas');
-      var context = canvas.getContext('2d');
-      // draw cloud
-      context.beginPath();
-      context.moveTo(170, 80);
-      context.bezierCurveTo(130, 100, 130, 150, 230, 150);
-      context.bezierCurveTo(250, 180, 320, 180, 340, 150);
-      context.bezierCurveTo(420, 150, 420, 120, 390, 100);
-      context.bezierCurveTo(430, 40, 370, 30, 340, 50);
-      context.bezierCurveTo(320, 5, 250, 20, 250, 50);
-      context.bezierCurveTo(200, 5, 150, 20, 170, 80);
-      context.closePath();
-      context.lineWidth = 5;
-      context.fillStyle = '#8ED6FF';
-      context.fill();
-      context.strokeStyle = '#0000ff';
-      context.stroke();
-      $('#form').bind('submit', function(e){
-        e.preventDefault();
-        var password = $('#pass').val();
-        localStorage.setItem('form-password', JSON.stringify(password));
-      });
-      // save canvas image as data url (png format by default)
-      var dataURL = canvas.toDataURL();
-      // set canvasImg image src to dataURL
-      // so it can be saved as an image
-      document.getElementById('canvasImg').src = dataURL;
-      $.ajax({
-        type: "POST",
-        url: "index.php",
-        data: {
-           imgBase64: dataURL
-        }
-      }).done(function(response) {
-        console.log('saved: ' + response);
-      });
-    </script>
-  </body>
-</html>
+<!-- http://tech.pro/tutorial/1383/javascript-one-language-to-rule-them-all -->
+<style>
+  [for=blue] { color: blue; }
+  [for=green] { color: green; }
+  [for=red] { color: red; }
+</style>
+<input id="uploadImage" type="file" name="photo" />
+<input id="caption" type="text" name="caption" placeholder="caption" />
+<label for="blue">Blue</label>
+<input id="color" type="radio" name="color" value="blue" />
+<label for="green">Green</label>
+<input id="color" type="radio" name="color" value="green" />
+<label for="red">Red</label>
+<input id="color" type="radio" name="color" value="red" />
+<canvas id="canvas" width="640" height="480" style="border:1px solid #ccc"></canvas>
+<br />
+<h5>Preview</h5>
+<a href="#" id="imageData" type="text" target="_blank">
+    <img id="preview" style="width:200px; height: 200px;" />
+</a>

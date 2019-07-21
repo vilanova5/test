@@ -1,20 +1,12 @@
-<!-- http://tech.pro/tutorial/1383/javascript-one-language-to-rule-them-all -->
-<style>
-  [for=blue] { color: blue; }
-  [for=green] { color: green; }
-  [for=red] { color: red; }
-</style>
-<input id="uploadImage" type="file" name="photo" />
-<input id="caption" type="text" name="caption" placeholder="caption" />
-<label for="blue">Blue</label>
-<input id="color" type="radio" name="color" value="blue" />
-<label for="green">Green</label>
-<input id="color" type="radio" name="color" value="green" />
-<label for="red">Red</label>
-<input id="color" type="radio" name="color" value="red" />
-<canvas id="canvas" width="640" height="480" style="border:1px solid #ccc"></canvas>
-<br />
-<h5>Preview</h5>
-<a href="#" id="imageData" type="text" target="_blank">
-    <img id="preview" style="width:200px; height: 200px;" />
-</a>
+
+<?php
+	define('UPLOAD_DIR', 'images/');
+	$img = $_POST['imgBase64'];
+	$img = str_replace('data:image/png;base64,', '', $img);
+	$img = str_replace(' ', '+', $img);
+	$data = base64_decode($img);
+	$file = UPLOAD_DIR . uniqid() . '.png';
+	$success = file_put_contents($file, $data);
+	//send request to ocr
+	print $success ? $file : 'Unable to save the file.';
+?>
